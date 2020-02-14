@@ -25,6 +25,7 @@ This repository contains source code necessary to reproduce the results presente
 # FQ-BigGAN
 ## Dependencies
 > This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). Here we will give more details of the code usage. Basically, you will need 
+>
 > **python 3.x, pytorch 1.x, tqdm ,h5py**
 
 ## Prepare datasets
