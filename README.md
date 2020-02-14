@@ -49,13 +49,13 @@ This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT
 ### Prepare datasets
 We used selfie2anime, cat2dog, horse2zebra, photo2portrait, vangogh2photo.
 
-1. selfie2anime: go to  [U-GAT-IT](https://github.com/taki0112/UGATIT) to download the dataset and unzip it to ./dataset.
-2. cat2dog and photo2portrait: here we provide a bash script from [DRIT](https://github.com/HsinYingLee/DRIT) to download the two datasets.
-3. horse2zebra and vangogh2photo: here we provide a bash script from [CycleGAN](https://github.com/junyanz/CycleGAN) to download the two datasets.
+1. selfie2anime: go to  [U-GAT-IT](https://github.com/taki0112/UGATIT) to download the dataset and unzip it to ``./dataset``.
+2. cat2dog and photo2portrait: here we provide a bash script adapted from [DRIT](https://github.com/HsinYingLee/DRIT) to download the two datasets.
+3. horse2zebra and vangogh2photo: here we provide a bash script adapted from [CycleGAN](https://github.com/junyanz/CycleGAN) to download the two datasets.
 
 ### Training
 ```
-python main.py --quant [type=bool, True/False] --commiment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.8]
+python main.py --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.8]
 ```
 
 
