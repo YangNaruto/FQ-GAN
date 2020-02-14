@@ -1,19 +1,17 @@
-> # FQ-GAN
->
+## FQ-GAN
 
-This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training
+This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training.
 
-[TOC]
+## Contents
+1. [FQ-BigGAN](# FQ-BigGAN)
 
+## FQ-BigGAN
+### Dependencies
+This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). Here we will give more details of the code usage. Basically, you will need 
 
+**python 3.x, pytorch 1.x, tqdm ,h5py**
 
-# FQ-BigGAN
-## Dependencies
-> This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). Here we will give more details of the code usage. Basically, you will need 
->
-> **python 3.x, pytorch 1.x, tqdm ,h5py**
-
-## Prepare datasets
+### Prepare datasets
 1. CIFAR-10 (change C10 to C100 to prepare CIFAR-100)
 ```
 	python make_hdf5.py --dataset C10 --batch_size 256 --data_root data
@@ -28,7 +26,7 @@ This repository contains source code necessary to reproduce the results presente
 ```
 
 
-## Training 
+### Training 
 We put four bash scripts in  FQ-BigGAN/scripts to train CIFAR-10, CIFAR-100, ImageNet (64x64) and ImageNet (128x128). For example, to train CIFAR-100, simply execute
 
 ```
