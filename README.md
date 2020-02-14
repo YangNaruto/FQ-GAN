@@ -60,10 +60,11 @@ We used selfie2anime, cat2dog, horse2zebra, photo2portrait, vangogh2photo.
 	cd FQ-U-GAT-IT && bash download_dataset_2.sh [horse2zebra, vangogh2photo]
 ```
 
-   
+
 ### Training
 ```
 python main.py --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.8]
 ```
+By  default, the training procedure will output checkpoints and intermediate translations from (testA, testB) to `checkpoints (checkpoints_quant)` and `results (results_quant)` respectively.
 
 
