@@ -3,7 +3,7 @@
 This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training.
 
 ## Contents
-1. [FQ-BigGAN](# FQ-BigGAN)
+1. [FQ-BigGAN](#FQ-BigGAN)
 
 ## FQ-BigGAN
 ### Dependencies
