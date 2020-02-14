@@ -4,6 +4,7 @@ This repository contains source code necessary to reproduce the results presente
 
 ## Contents
 1. [FQ-BigGAN](#FQ-BigGAN)
+2. [FQ-U-GAT-IT](#FQ-U-GAT-IT)
 
 ## FQ-BigGAN
 ### Dependencies
@@ -46,5 +47,11 @@ This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT
 **python 3.6.x, tensorflow-gpu-1.14.0, opencv-python, tensorboardX**
 
 ### Prepare datasets
+
+We used selfie2anime, cat2dog, horse2zebra, photo2portrait, vangogh2photo.
+
+1. selfie2anime: go to  [U-GAT-IT](https://github.com/taki0112/UGATIT) to download the dataset and unzip it to ./dataset.
+2. cat2dog and photo2portrait: here we provide a bash script from [DRIT](https://github.com/HsinYingLee/DRIT) to download the two datasets.
+3. horse2zebra and vangogh2photo: here we provide a bash script from [CycleGAN](https://github.com/junyanz/CycleGAN) to download the two datasets.
 
 
