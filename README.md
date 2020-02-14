@@ -43,6 +43,11 @@ To modify the FQ parameters, we provide the following options in each script as 
 
 ## FQ-U-GAT-IT
 This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT). Here we plan to give more details of the dataset preparation and code usage. 
+
+<p align="center">
+  <img width="75%" height="%75" src="https://github.com/YangNaruto/FQ-GAN/images/tac_gan_scheme.png">
+</p>
+
 ### Dependencies
 **python 3.6.x, tensorflow-gpu-1.14.0, opencv-python, tensorboardX**
 
