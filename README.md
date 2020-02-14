@@ -36,10 +36,10 @@ sh scripts/launch_C100.sh
 
 To modify the FQ parameters, we provide the following options in each script as arguments:
 
-1. ```--discrete_layer```: it  specifies which layers you want quantization to be added, i.e. 0123 
-2. ```--commitment``` : it is the commitment coefficient, default=1.0
-3. ```--dict_size```:  the size of the EMA dictionary, default=8, meaning there are 2^8 keys in the dictionary.
-4. ```--dict_decay```:  the momentum when learning the dictionary, default=0.8.
+1. `--discrete_layer`: it  specifies which layers you want quantization to be added, i.e. 0123 
+2. `--commitment` : it is the commitment coefficient, default=1.0
+3. `--dict_size`:  the size of the EMA dictionary, default=8, meaning there are 2^8 keys in the dictionary.
+4. `--dict_decay`:  the momentum when learning the dictionary, default=0.8.
 
 ## FQ-U-GAT-IT
 This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT). Here we plan to give more details of the dataset preparation and code usage. 
@@ -49,7 +49,7 @@ This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT
 ### Prepare datasets
 We used selfie2anime, cat2dog, horse2zebra, photo2portrait, vangogh2photo.
 
-1. selfie2anime: go to  [U-GAT-IT](https://github.com/taki0112/UGATIT) to download the dataset and unzip it to ``./dataset``.
+1. selfie2anime: go to  [U-GAT-IT](https://github.com/taki0112/UGATIT) to download the dataset and unzip it to `./dataset`.
 2. cat2dog and photo2portrait: here we provide a bash script adapted from [DRIT](https://github.com/HsinYingLee/DRIT) to download the two datasets.
 3. horse2zebra and vangogh2photo: here we provide a bash script adapted from [CycleGAN](https://github.com/junyanz/CycleGAN) to download the two datasets.
 
