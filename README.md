@@ -3,7 +3,7 @@
 This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training.
 
 ## Contents
-1. [FQ-BigGAN](# FQ-BigGAN)
+1. [FQ-BigGAN](#FQ-BigGAN)
 
 ## FQ-BigGAN
 ### Dependencies
@@ -39,4 +39,12 @@ To modify the FQ parameters, we provide the following options in each script as 
 2. ```--commitment``` : it is the commitment coefficient, default=1.0
 3. ```--dict_size```:  the size of the EMA dictionary, default=8, meaning there are 2^8 keys in the dictionary.
 4. ```--dict_decay```:  the momentum when learning the dictionary, default=0.8.
+
+## FQ-U-GAT-IT
+This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT). Here we plan to give more details of the dataset preparation and code usage. 
+### Dependencies
+**python 3.6.x, tensorflow-gpu-1.14.0, opencv-python, tensorboardX**
+
+### Prepare datasets
+
 
