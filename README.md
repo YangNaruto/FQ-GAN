@@ -45,7 +45,7 @@ To modify the FQ parameters, we provide the following options in each script as 
 This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT). Here we plan to give more details of the dataset preparation and code usage. 
 
 <p align="center">
-  <img width="%100" height="%100" src="https://github.com/YangNaruto/FQ-GAN/blob/master/images/i2i_samples.png">
+  <img width="%100" height="%100" src=images/i2i_samples.png>
 </p>
 
 ### Dependencies
