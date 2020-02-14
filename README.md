@@ -1,4 +1,4 @@
-## FQ-GAN
+# FQ-GAN
 
 This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training.
 
@@ -18,14 +18,13 @@ This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). H
 	python make_hdf5.py --dataset C10 --batch_size 256 --data_root data
 	python calculate_inception_moments.py --dataset C10 --data_root data --batch_size 128
 ```
-2. ImageNet, first you need to manually download ImageNet dataset, then execute the following command to prepare ImageNet (128x128)
+2. ImageNet, first you need to manually download ImageNet and put all image class folders into `./data/ImageNet`, then execute the following command to prepare ImageNet (128x128)
 
 ```
 	python make_hdf5.py --dataset I128 --batch_size 256 --data_root data
 	python calculate_inception_moments.py --dataset I128_hdf5 --data_root data --batch_size 128
 
 ```
-
 
 ### Training 
 We put four bash scripts in  FQ-BigGAN/scripts to train CIFAR-10, CIFAR-100, ImageNet (64x64) and ImageNet (128x128). For example, to train CIFAR-100, simply execute
@@ -64,7 +63,6 @@ We used selfie2anime, cat2dog, horse2zebra, photo2portrait, vangogh2photo.
 ```
 	cd FQ-U-GAT-IT && bash download_dataset_2.sh [horse2zebra, vangogh2photo]
 ```
-
 
 ### Training
 ```
