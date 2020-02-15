@@ -108,7 +108,7 @@ To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com
 ```
 python train.py
 ```
-Training settings like the choice of dataset, learning rate and so on can be found in `train.py`. You can tune FQ parameters through the class `D_basic_quant` in `training/networks_stylegan.py`.
+Training settings like the choice of dataset and learning rate can be found in `train.py`. You can tune FQ parameters through the class `D_basic_quant` in `training/networks_stylegan.py`.
 
 ## Acknowledgements
 We thank official open-source implementations of [BigGAN](https://arxiv.org/abs/1809.11096), [StyleGAN](https://arxiv.org/abs/1809.11096) and [U-GAT-IT](https://arxiv.org/abs/1907.10830). 
