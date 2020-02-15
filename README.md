@@ -95,7 +95,7 @@ python main.py --quant [type=bool, True/False] --commitment_cost [type=float, de
 By  default, the training procedure will output checkpoints and intermediate translations from (testA, testB) to `checkpoints (checkpoints_quant)` and `results (results_quant)` respectively.
 
 ## FQ-StyleGAN
-This code is based on the official [StyleGAN](https://github.com/NVlabs/stylegan). Origin [Flicker-Faces](https://arxiv.org/abs/1812.04948) datasets include multi-resolution data. For now, we provide the source code to reproduce the results using 32&times;32, 64&times;64 and 128&times;128 shown in the paper, since there are some unstable issues towards training higher resolution images. We plan to release a complete version and highligh the results soon.
+This code is based on the official [StyleGAN](https://github.com/NVlabs/stylegan) open-source code. Origin [Flicker-Faces](https://arxiv.org/abs/1812.04948) datasets include multi-resolution data. For now, we provide the source code to reproduce the results using 32&times;32, 64&times;64 and 128&times;128 shown in the paper, since there are some unstable issues towards training higher resolution images. We plan to release a complete version and highligh the results soon.
 
 ### Dependencies
 
