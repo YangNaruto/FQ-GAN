@@ -2,11 +2,17 @@
 
 This repository contains source code necessary to reproduce the results presented in the paper Feature Quantization Improves GAN Training.
 
+<p align="center">
+  <img width="%100" height="%100" src=images/architecture.png>
+</p>
+
 ## Contents
 1. [FQ-BigGAN](#FQ-BigGAN)
-2. [FQ-U-GAT-IT](#FQ-U-GAT-IT)
+3. [FQ-U-GAT-IT](#FQ-U-GAT-IT)
+4. [FQ-StyleGAN](#FQ-StyleGAN)
 
 ## FQ-BigGAN
+
 ### Dependencies
 This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). Here we will give more details of the code usage. Basically, you will need 
 
@@ -18,7 +24,7 @@ This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). H
 	python make_hdf5.py --dataset C10 --batch_size 256 --data_root data
 	python calculate_inception_moments.py --dataset C10 --data_root data --batch_size 128
 ```
-2. ImageNet, first you need to manually download ImageNet and put all image class folders into `./data/ImageNet`, then execute the following command to prepare ImageNet (128x128)
+2. ImageNet, first you need to manually download ImageNet and put all image class folders into `./data/ImageNet`, then execute the following command to prepare ImageNet (128&times;128)
 
 ```
 	python make_hdf5.py --dataset I128 --batch_size 256 --data_root data
@@ -27,7 +33,7 @@ This code is based on [PyTorchGAN](https://github.com/ajbrock/BigGAN-PyTorch). H
 ```
 
 ### Training 
-We put four bash scripts in  FQ-BigGAN/scripts to train CIFAR-10, CIFAR-100, ImageNet (64x64) and ImageNet (128x128). For example, to train CIFAR-100, simply execute
+We put four bash scripts in  FQ-BigGAN/scripts to train CIFAR-10, CIFAR-100, ImageNet (64&times;64) and ImageNet (128&times;128). For example, to train CIFAR-100, simply execute
 
 ```
 sh scripts/launch_C100.sh
@@ -40,6 +46,24 @@ To modify the FQ parameters, we provide the following options in each script as 
 3. `--dict_size`:  the size of the EMA dictionary, default=8, meaning there are 2^8 keys in the dictionary.
 4. `--dict_decay`:  the momentum when learning the dictionary, default=0.8.
 
+### Experiments
+Learning curves on CIFAR-100.
+<p align="center">
+  <img width="70%" height="70%" src=images/cifar100.png>
+</p>
+
+FID score comparison with BigGAN on ImageNet
+
+| Model     | 64&times;64  | 128&times;128|
+|:--------:|:-------:|:-------------:|
+| BigGAN    |10.55   |  14.88 | 
+| FQ-BigGAN | 9.67   |  13.77  |
+
+Generated sample comparison on ImageNet (64x64)
+| BigGAN | FQ-BigGAN |
+:-------------------------:|:-------------------------:|
+![](images/bird.jpg) | ![](images/bird_quant.jpg)
+![](images/insects.jpg) | ![](images/insects_quant.jpg)
 ## FQ-U-GAT-IT
 This code is based on the official [U-GAT-IT](https://github.com/taki0112/UGATIT). Here we plan to give more details of the dataset preparation and code usage. 
 
@@ -70,4 +94,18 @@ python main.py --quant [type=bool, True/False] --commitment_cost [type=float, de
 ```
 By  default, the training procedure will output checkpoints and intermediate translations from (testA, testB) to `checkpoints (checkpoints_quant)` and `results (results_quant)` respectively.
 
+## FQ-StyleGAN
+This code is based on the official [StyleGAN](https://github.com/NVlabs/stylegan). Origin [Flicker-Faces](https://arxiv.org/abs/1812.04948) dataset include multi-resolution data. For now, we will provide the source code to reproduce the results using 32&times;32, 64&times;64 and 128&times;128 shown in the paper, since there are some unstable issues towards training higher resolution images. We plan to release a complete version and highligh the results soon.
+
+### Dependencies
+
+### Prepare datasets
+To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com/NVlabs/ffhq-dataset) and download the tfrecords dataset [FFHQ-tfrecords](https://drive.google.com/drive/folders/1LTBpJ0W_WLjqza3zdayligS8Dh1V1gA6) into `datasets/ffhq`.
+
+### Training
+```
+python train.py
+```
+
+## Acknowledgements
 
