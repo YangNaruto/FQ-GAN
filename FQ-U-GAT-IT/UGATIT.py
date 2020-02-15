@@ -699,12 +699,6 @@ class UGATIT(object) :
         check_folder(A2B_root)
         check_folder(B2A_root)
 
-        # write html for visual comparison
-        # index_path = os.path.join(self.result_dir, 'index.html')
-        # index = open(index_path, 'w')
-        # index.write("<html><body><table><tr>")
-        # index.write("<th>name</th><th>input</th><th>output</th></tr>")
-
         for sample_file  in test_A_files : # A -> B
             # print('Processing A image: ' + sample_file)
             sample_image = np.asarray(load_test_data(sample_file, size=self.img_size))
@@ -714,16 +708,8 @@ class UGATIT(object) :
             fake_img = self.sess.run(self.test_fake_B, feed_dict = {self.test_domain_A : sample_image})
             save_images(fake_img, [1, 1], image_path)
 
-            # index.write("<td>%s</td>" % os.path.basename(image_path))
-            #
-            # index.write("<td><img src='%s' width='%d' height='%d'></td>" % (sample_file if os.path.isabs(sample_file) else (
-            #     '../..' + os.path.sep + sample_file), self.img_size, self.img_size))
-            # index.write("<td><img src='%s' width='%d' height='%d'></td>" % (image_path if os.path.isabs(image_path) else (
-            #     '../..' + os.path.sep + image_path), self.img_size, self.img_size))
-            # index.write("</tr>")
-
         for sample_file  in test_B_files : # B -> A
-            # print('Processing B image: ' + sample_file)
+            
             sample_image = np.asarray(load_test_data(sample_file, size=self.img_size))
 
             image_path = os.path.join(B2A_root, os.path.basename(sample_file))
@@ -731,33 +717,4 @@ class UGATIT(object) :
             fake_img = self.sess.run(self.test_fake_A, feed_dict = {self.test_domain_B : sample_image})
 
             save_images(fake_img, [1, 1], image_path)
-        #     index.write("<td>%s</td>" % os.path.basename(image_path))
-        #     index.write("<td><img src='%s' width='%d' height='%d'></td>" % (sample_file if os.path.isabs(sample_file) else (
-        #             '../..' + os.path.sep + sample_file), self.img_size, self.img_size))
-        #     index.write("<td><img src='%s' width='%d' height='%d'></td>" % (image_path if os.path.isabs(image_path) else (
-        #             '../..' + os.path.sep + image_path), self.img_size, self.img_size))
-        #     index.write("</tr>")
-        # index.close()
 
-        # kid_score_a2b = kernel_inception_distance(real_tgt_path=test_B_root,
-        #                                    fake_path=A2B_root, perfix=self.dataset_name)
-        #
-        # kid_score_b2a = kernel_inception_distance(real_tgt_path=test_A_root,
-        #                                               fake_path=B2A_root, perfix=self.dataset_name[::-1])
-        # #
-        # kid_score_a2b =  mean_kernel_inception_distance(fake_path=A2B_root,
-        #                                                      real_src_path=test_A_root,
-        #                                                      real_tgt_path=train_B_root,
-        #                                                      perfix=str(epoch) +
-        #                                                             " -- " +self.dataset_name)
-
-        # kid_score_b2a = mean_kernel_inception_distance(fake_path=B2A_root,
-        #                                                     real_src_path=test_B_root,
-        #                                                     real_tgt_path=train_A_root,
-        #                                                     perfix=self.dataset_name[::-1])
-        # with open(os.path.join(self.result_dir, 'metric.txt'), 'a') as f:
-        #     f.write('  '.join([kid_score_a2b, kid_score_b2a]))
-        #     f.write('\n')
-        # if os.path.exists(A2B_root) or os.path.exists(B2A_root):
-        #     shutil.rmtree(A2B_root)
-        #     shutil.rmtree(B2A_root)
