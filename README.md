@@ -95,9 +95,11 @@ python main.py --quant [type=bool, True/False] --commitment_cost [type=float, de
 By  default, the training procedure will output checkpoints and intermediate translations from (testA, testB) to `checkpoints (checkpoints_quant)` and `results (results_quant)` respectively.
 
 ## FQ-StyleGAN
-This code is based on the official [StyleGAN](https://github.com/NVlabs/stylegan). Origin [Flicker-Faces](https://arxiv.org/abs/1812.04948) dataset include multi-resolution data. For now, we will provide the source code to reproduce the results using 32&times;32, 64&times;64 and 128&times;128 shown in the paper, since there are some unstable issues towards training higher resolution images. We plan to release a complete version and highligh the results soon.
+This code is based on the official [StyleGAN](https://github.com/NVlabs/stylegan). Origin [Flicker-Faces](https://arxiv.org/abs/1812.04948) datasets include multi-resolution data. For now, we provide the source code to reproduce the results using 32&times;32, 64&times;64 and 128&times;128 shown in the paper, since there are some unstable issues towards training higher resolution images. We plan to release a complete version and highligh the results soon.
 
 ### Dependencies
+
+**python 3.6.x, tensorflow-gpu 1.14.0, numpy**
 
 ### Prepare datasets
 To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com/NVlabs/ffhq-dataset) and download the tfrecords dataset [FFHQ-tfrecords](https://drive.google.com/drive/folders/1LTBpJ0W_WLjqza3zdayligS8Dh1V1gA6) into `datasets/ffhq`.
@@ -106,6 +108,7 @@ To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com
 ```
 python train.py
 ```
+Training settings like the choice of dataset, learning rate and so on can be found in `train.py`. You can tune FQ parameters through the class `D_basic_quant` in `training/networks_stylegan.py`.
 
 ## Acknowledgements
-
+We thank official open-source implementations of [BigGAN](https://arxiv.org/abs/1809.11096), [StyleGAN](https://arxiv.org/abs/1809.11096) and [U-GAT-IT](https://arxiv.org/abs/1907.10830). 
