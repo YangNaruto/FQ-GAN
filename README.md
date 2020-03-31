@@ -111,7 +111,8 @@ To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com
 
 ### Training
 ```
-python train.py
+python run_training.py --num-gpus=8 --data-dir=datasets --config=config-e --dataset=ffhq --mirror-augment=true --total-kimg 25000 --gamma=100 --D_type=1 --discrete_layer {type=string, default=45} --commitment_cost [type=float, default=0.8]
+
 ```
 Training settings such as the choice of dataset and learning rate can be found in `train.py`. You can tune FQ parameters through the class `D_basic_quant` in `training/networks_stylegan.py`.
 
