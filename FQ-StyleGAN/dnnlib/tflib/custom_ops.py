@@ -61,7 +61,7 @@ def _run_cmd(cmd):
         raise RuntimeError('NVCC returned an error. See below for full command line and output log:\n\n%s\n\n%s' % (cmd, output))
 
 def _prepare_nvcc_cli(opts):
-    cmd = 'nvcc ' + opts.strip()
+    cmd = 'nvcc --std=c++11 -DNDEBUG ' + opts.strip()
     cmd += ' --disable-warnings'
     cmd += ' --include-path "%s"' % tf.sysconfig.get_include()
     cmd += ' --include-path "%s"' % os.path.join(tf.sysconfig.get_include(), 'external', 'protobuf_archive', 'src')
@@ -124,7 +124,7 @@ def get_plugin(cuda_file):
             compile_opts += '"%s"' % os.path.join(tf.sysconfig.get_lib(), 'python', '_pywrap_tensorflow_internal.lib')
         elif os.name == 'posix':
             compile_opts += '"%s"' % os.path.join(tf.sysconfig.get_lib(), 'python', '_pywrap_tensorflow_internal.so')
-            compile_opts += ' --compiler-options \'-fPIC -D_GLIBCXX_USE_CXX11_ABI=0\''
+            compile_opts += ' --compiler-options \'-fPIC -D_GLIBCXX_USE_CXX11_ABI=1\''
         else:
             assert False # not Windows or Linux, w00t?
         compile_opts += ' --gpu-architecture=%s' % _get_cuda_gpu_arch_string()

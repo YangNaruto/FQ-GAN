@@ -4,11 +4,9 @@
 # To view a copy of this license, visit
 # https://nvlabs.github.io/stylegan2/license.html
 
-"""Frechet Inception Distance (FID)."""
+"""Inception Score (IS)."""
 
-import os
 import numpy as np
-import scipy
 import tensorflow as tf
 import dnnlib.tflib as tflib
 
@@ -17,32 +15,17 @@ from training import misc
 
 #----------------------------------------------------------------------------
 
-class FID(metric_base.MetricBase):
-    def __init__(self, num_images, minibatch_per_gpu, **kwargs):
+class IS(metric_base.MetricBase):
+    def __init__(self, num_images, num_splits, minibatch_per_gpu, **kwargs):
         super().__init__(**kwargs)
         self.num_images = num_images
+        self.num_splits = num_splits
         self.minibatch_per_gpu = minibatch_per_gpu
 
     def _evaluate(self, Gs, Gs_kwargs, num_gpus):
         minibatch_size = num_gpus * self.minibatch_per_gpu
-        inception = misc.load_pkl('http://d36zk2xti64re0.cloudfront.net/stylegan1/networks/metrics/inception_v3_features.pkl')
+        inception = misc.load_pkl('http://d36zk2xti64re0.cloudfront.net/stylegan1/networks/metrics/inception_v3_softmax.pkl')
         activations = np.empty([self.num_images, inception.output_shape[1]], dtype=np.float32)
-
-        # Calculate statistics for reals.
-        cache_file = self._get_cache_file_for_reals(num_images=self.num_images)
-        os.makedirs(os.path.dirname(cache_file), exist_ok=True)
-        if os.path.isfile(cache_file):
-            mu_real, sigma_real = misc.load_pkl(cache_file)
-        else:
-            for idx, images in enumerate(self._iterate_reals(minibatch_size=minibatch_size)):
-                begin = idx * minibatch_size
-                end = min(begin + minibatch_size, self.num_images)
-                activations[begin:end] = inception.run(images[:end-begin], num_gpus=num_gpus, assume_frozen=True)
-                if end == self.num_images:
-                    break
-            mu_real = np.mean(activations, axis=0)
-            sigma_real = np.cov(activations, rowvar=False)
-            misc.save_pkl((mu_real, sigma_real), cache_file)
 
         # Construct TensorFlow graph.
         result_expr = []
@@ -56,18 +39,20 @@ class FID(metric_base.MetricBase):
                 images = tflib.convert_images_to_uint8(images)
                 result_expr.append(inception_clone.get_output_for(images))
 
-        # Calculate statistics for fakes.
+        # Calculate activations for fakes.
         for begin in range(0, self.num_images, minibatch_size):
             self._report_progress(begin, self.num_images)
             end = min(begin + minibatch_size, self.num_images)
             activations[begin:end] = np.concatenate(tflib.run(result_expr), axis=0)[:end-begin]
-        mu_fake = np.mean(activations, axis=0)
-        sigma_fake = np.cov(activations, rowvar=False)
 
-        # Calculate FID.
-        m = np.square(mu_fake - mu_real).sum()
-        s, _ = scipy.linalg.sqrtm(np.dot(sigma_fake, sigma_real), disp=False) # pylint: disable=no-member
-        dist = m + np.trace(sigma_fake + sigma_real - 2*s)
-        self._report_result(np.real(dist))
+        # Calculate IS.
+        scores = []
+        for i in range(self.num_splits):
+            part = activations[i * self.num_images // self.num_splits : (i + 1) * self.num_images // self.num_splits]
+            kl = part * (np.log(part) - np.log(np.expand_dims(np.mean(part, 0), 0)))
+            kl = np.mean(np.sum(kl, 1))
+            scores.append(np.exp(kl))
+        self._report_result(np.mean(scores), suffix='_mean')
+        self._report_result(np.std(scores), suffix='_std')
 
 #----------------------------------------------------------------------------

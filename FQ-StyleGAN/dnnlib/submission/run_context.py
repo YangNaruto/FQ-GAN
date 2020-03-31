@@ -1,9 +1,8 @@
-﻿# Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2019, NVIDIA Corporation. All rights reserved.
 #
-# This work is licensed under the Creative Commons Attribution-NonCommercial
-# 4.0 International License. To view a copy of this license, visit
-# http://creativecommons.org/licenses/by-nc/4.0/ or send a letter to
-# Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+# This work is made available under the Nvidia Source Code License-NC.
+# To view a copy of this license, visit
+# https://nvlabs.github.io/stylegan2/license.html
 
 """Helpers for managing the run/training loop."""
 
@@ -18,6 +17,8 @@ from typing import Any
 
 from . import submit
 
+# Singleton RunContext
+_run_context = None
 
 class RunContext(object):
     """Helper class for managing the run/training loop.
@@ -28,24 +29,25 @@ class RunContext(object):
 
     Args:
         submit_config: The SubmitConfig that is used for the current run.
-        config_module: The whole config module that is used for the current run.
-        max_epoch: Optional cached value for the max_epoch variable used in update.
+        config_module: (deprecated) The whole config module that is used for the current run.
     """
 
-    def __init__(self, submit_config: submit.SubmitConfig, config_module: types.ModuleType = None, max_epoch: Any = None):
+    def __init__(self, submit_config: submit.SubmitConfig, config_module: types.ModuleType = None):
+        global _run_context
+        # Only a single RunContext can be alive
+        assert _run_context is None
+        _run_context = self
         self.submit_config = submit_config
         self.should_stop_flag = False
         self.has_closed = False
         self.start_time = time.time()
         self.last_update_time = time.time()
         self.last_update_interval = 0.0
-        self.max_epoch = max_epoch
+        self.progress_monitor_file_path = None
 
-        # pretty print the all the relevant content of the config module to a text file
+        # vestigial config_module support just prints a warning
         if config_module is not None:
-            with open(os.path.join(submit_config.run_dir, "config.txt"), "w") as f:
-                filtered_dict = {k: v for k, v in config_module.__dict__.items() if not k.startswith("_") and not isinstance(v, (types.ModuleType, types.FunctionType, types.LambdaType, submit.SubmitConfig, type))}
-                pprint.pprint(filtered_dict, stream=f, indent=4, width=200, compact=False)
+            print("RunContext.config_module parameter support has been removed.")
 
         # write out details about the run to a text file
         self.run_txt_data = {"task_name": submit_config.task_name, "host_name": submit_config.host_name, "start_time": datetime.datetime.now().isoformat(sep=" ")}
@@ -68,8 +70,6 @@ class RunContext(object):
 
         if os.path.exists(os.path.join(self.submit_config.run_dir, "abort.txt")):
             self.should_stop_flag = True
-
-        max_epoch_val = self.max_epoch if max_epoch is None else max_epoch
 
     def should_stop(self) -> bool:
         """Tell whether a stopping condition has been triggered one way or another."""
@@ -95,5 +95,16 @@ class RunContext(object):
             self.run_txt_data["stop_time"] = datetime.datetime.now().isoformat(sep=" ")
             with open(os.path.join(self.submit_config.run_dir, "run.txt"), "w") as f:
                 pprint.pprint(self.run_txt_data, stream=f, indent=4, width=200, compact=False)
-
             self.has_closed = True
+
+            # detach the global singleton
+            global _run_context
+            if _run_context is self:
+                _run_context = None
+
+    @staticmethod
+    def get():
+        import dnnlib
+        if _run_context is not None:
+            return _run_context
+        return RunContext(dnnlib.submit_config)

@@ -1,9 +1,8 @@
-﻿# Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2019, NVIDIA Corporation. All rights reserved.
 #
-# This work is licensed under the Creative Commons Attribution-NonCommercial
-# 4.0 International License. To view a copy of this license, visit
-# http://creativecommons.org/licenses/by-nc/4.0/ or send a letter to
-# Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+# This work is made available under the Nvidia Source Code License-NC.
+# To view a copy of this license, visit
+# https://nvlabs.github.io/stylegan2/license.html
 
 """Network architectures used in the StyleGAN paper."""
 
@@ -11,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 import dnnlib
 import dnnlib.tflib as tflib
-from tensorflow.python.training import moving_averages
+
 # NOTE: Do not import any application-specific modules here!
 # Specify all network parameters as kwargs.
 
@@ -559,86 +558,8 @@ def G_synthesis(
     return tf.identity(images_out, name='images_out')
 
 #----------------------------------------------------------------------------
-# Define a VectorQuantize function
-def VectorQuantizerEMA(inputs, is_training=True, update=True, embedding_dim=512,
-             num_embeddings=2**8,
-             decay=0.8, commitment_cost=1.0,
-             epsilon=1e-5,
-                       **_kwargs):
-    _embedding_dim = embedding_dim
-    _num_embeddings = num_embeddings
-    _decay = decay
-    _commitment_cost = commitment_cost
-    _epsilon = epsilon
-    # with self._enter_variable_scope():
-    # initializer = tf.random_normal_initializer()
-    # initializer = tf.initializers.variance_scaling(distribution='truncated_normal')
-
-    # w is a matrix with an embedding in each column. When training, the
-    # embedding is assigned to be the average of all inputs assigned to that
-    # embedding.
-    embedding_shape = [embedding_dim, num_embeddings]
-    _w = tf.get_variable(
-        'embedding', embedding_shape,
-        initializer=tf.variance_scaling_initializer(), use_resource=True)
-    _ema_cluster_size = tf.get_variable(
-        'ema_cluster_size', [num_embeddings],
-        initializer=tf.constant_initializer(0), use_resource=True)
-    _ema_w = tf.get_variable(
-        'ema_dw', initializer=_w.read_value(), use_resource=True)
-    inputs.set_shape([None, None, None, embedding_dim])
-
-    def quantize(encoding_indices):
-        with tf.control_dependencies([encoding_indices]):
-            w = tf.transpose(_w.read_value(), [1, 0])
-        return tf.nn.embedding_lookup(w, encoding_indices, validate_indices=False)
-
-    with tf.control_dependencies([inputs]):
-        w = _w.read_value()
-    input_shape = tf.shape(inputs)
-    with tf.control_dependencies([
-        tf.Assert(tf.equal(input_shape[-1], _embedding_dim),
-                  [input_shape])]):
-        flat_inputs = tf.reshape(inputs, [-1, _embedding_dim])
-
-    distances = (tf.reduce_sum(flat_inputs ** 2, 1, keepdims=True)
-                 - 2 * tf.matmul(flat_inputs, w)
-                 + tf.reduce_sum(w ** 2, 0, keepdims=True))
-
-    encoding_indices = tf.argmax(- distances, 1)
-    encodings = tf.one_hot(encoding_indices, _num_embeddings)
-    encoding_indices = tf.reshape(encoding_indices, tf.shape(inputs)[:-1])
-    quantized = quantize(encoding_indices)
-    e_latent_loss = tf.reduce_mean((tf.stop_gradient(quantized) - inputs) ** 2, axis=[1, 2, 3])
-
-    if is_training:
-        updated_ema_cluster_size = moving_averages.assign_moving_average(
-            _ema_cluster_size, tf.reduce_sum(encodings, 0), _decay)
-        dw = tf.matmul(flat_inputs, encodings, transpose_a=True)
-        updated_ema_w = moving_averages.assign_moving_average(_ema_w, dw,
-                                                              _decay)
-        n = tf.reduce_sum(updated_ema_cluster_size)
-        updated_ema_cluster_size = (
-                (updated_ema_cluster_size + _epsilon)
-                / (n + _num_embeddings * _epsilon) * n)
-        # print('here')
-        normalised_updated_ema_w = (
-                updated_ema_w / tf.reshape(updated_ema_cluster_size, [1, -1]))
-        with tf.control_dependencies([e_latent_loss]):
-            update_w = tf.assign(_w, normalised_updated_ema_w)
-            with tf.control_dependencies([update_w]):
-                loss = _commitment_cost * e_latent_loss
-    else:
-        loss = _commitment_cost * e_latent_loss
-    quantized = inputs + tf.stop_gradient(quantized - inputs)
-    avg_probs = tf.reduce_mean(encodings, 0)
-    perplexity = tf.exp(- tf.reduce_sum(avg_probs * tf.log(avg_probs + 1e-10)))
-
-    return loss, perplexity
-
-
-#----------------------------------------------------------------------------
 # Discriminator used in the StyleGAN paper.
+
 def D_basic(
     images_in,                          # First input: Images [minibatch, channel, height, width].
     labels_in,                          # Second input: Labels [minibatch, label_size].
@@ -735,118 +656,5 @@ def D_basic(
     assert scores_out.dtype == tf.as_dtype(dtype)
     scores_out = tf.identity(scores_out, name='scores_out')
     return scores_out
-
-
-def D_basic_quant(
-    images_in,                          # First input: Images [minibatch, channel, height, width].
-    labels_in,                          # Second input: Labels [minibatch, label_size].
-    num_channels        = 1,            # Number of input color channels. Overridden based on dataset.
-    resolution          = 32,           # Input resolution. Overridden based on dataset.
-    label_size          = 0,            # Dimensionality of the labels, 0 if no labels. Overridden based on dataset.
-    fmap_base           = 8192,         # Overall multiplier for the number of feature maps.
-    fmap_decay          = 1.0,          # log2 feature map reduction when doubling the resolution.
-    fmap_max            = 512,          # Maximum number of feature maps in any layer.
-    nonlinearity        = 'lrelu',      # Activation function: 'relu', 'lrelu',
-    use_wscale          = True,         # Enable equalized learning rate?
-    mbstd_group_size    = 4,            # Group size for the minibatch standard deviation layer, 0 = disable.
-    mbstd_num_features  = 1,            # Number of features for the minibatch standard deviation layer.
-    dtype               = 'float32',    # Data type to use for activations and outputs.
-    fused_scale         = 'auto',       # True = fused convolution + scaling, False = separate ops, 'auto' = decide automatically.
-    blur_filter         = [1,2,1],      # Low-pass filter to apply when resampling activations. None = no filtering.
-    structure           = 'auto',       # 'fixed' = no progressive growing, 'linear' = human-readable, 'recursive' = efficient, 'auto' = select automatically.
-    is_template_graph   = False,        # True = template graph constructed by the Network class, False = actual evaluation.
-    components          = dnnlib.EasyDict(),        # Container for sub-networks. Retained between calls.
-    **_kwargs):                         # Ignore unrecognized keyword args.
-
-    resolution_log2 = int(np.log2(resolution))
-    assert resolution == 2**resolution_log2 and resolution >= 4
-    def nf(stage): return min(int(fmap_base / (2.0 ** (stage * fmap_decay))), fmap_max)
-    def blur(x): return blur2d(x, blur_filter) if blur_filter else x
-    if structure == 'auto': structure = 'linear' if is_template_graph else 'recursive'
-    # structure = 'linear'
-    act, gain = {'relu': (tf.nn.relu, np.sqrt(2)), 'lrelu': (leaky_relu, np.sqrt(2))}[nonlinearity]
-
-    images_in.set_shape([None, num_channels, resolution, resolution])
-    labels_in.set_shape([None, label_size])
-    images_in = tf.cast(images_in, dtype)
-    labels_in = tf.cast(labels_in, dtype)
-    lod_in = tf.cast(tf.get_variable('lod', initializer=np.float32(0.0), trainable=False), dtype)
-    scores_out = None
-    if 'discrete_mapping' not in components:
-        components.discrete_mapping = tflib.Network('Discrete_mapping', num_embeddings=2**10,
-             decay=0.8, commitment_cost=5.0, func_name=VectorQuantizerEMA, **_kwargs)
-
-    # Building blocks.
-    def fromrgb(x, res): # res = 2..resolution_log2
-        with tf.variable_scope('FromRGB_lod%d' % (resolution_log2 - res)):
-            return act(apply_bias(conv2d(x, fmaps=nf(res-1), kernel=1, gain=gain, use_wscale=use_wscale)))
-    def block(x, res): # res = 2..resolution_log2
-        with tf.variable_scope('%dx%d' % (2**res, 2**res)):
-            if res >= 3: # 8x8 and up
-                with tf.variable_scope('Conv0'):
-                    x = act(apply_bias(conv2d(x, fmaps=nf(res-1), kernel=3, gain=gain, use_wscale=use_wscale)))
-                with tf.variable_scope('Conv1_down'):
-                    x = act(apply_bias(conv2d_downscale2d(blur(x), fmaps=nf(res-2), kernel=3, gain=gain, use_wscale=use_wscale, fused_scale=fused_scale)))
-            else: # 4x4
-                if mbstd_group_size > 1:
-                    x = minibatch_stddev_layer(x, mbstd_group_size, mbstd_num_features)
-                with tf.variable_scope('Conv'):
-                    x = act(apply_bias(conv2d(x, fmaps=nf(res-1), kernel=3, gain=gain, use_wscale=use_wscale)))
-                with tf.variable_scope('Dense0'):
-                    x = act(apply_bias(dense(x, fmaps=nf(res-2), gain=gain, use_wscale=use_wscale)))
-                with tf.variable_scope('Dense1'):
-                    x = apply_bias(dense(x, fmaps=max(label_size, 1), gain=1, use_wscale=use_wscale))
-            return x
-
-    # Fixed structure: simple and efficient, but does not support progressive growing.
-    if structure == 'fixed':
-        x = fromrgb(images_in, resolution_log2)
-        for res in range(resolution_log2, 2, -1):
-            x = block(x, res)
-        scores_out = block(x, 2)
-    global quant_loss, perplexity
-    # Linear structure: simple but inefficient.
-    if structure == 'linear':
-        img = images_in
-        x = fromrgb(img, resolution_log2)
-        for res in range(resolution_log2, 2, -1):
-            lod = resolution_log2 - res
-            x = block(x, res)
-            img = downscale2d(img)
-            y = fromrgb(img, res - 1)
-            with tf.variable_scope('Grow_lod%d' % lod):
-                x = tflib.lerp_clip(x, y, lod_in - lod)
-            if res == 3:
-                quant_loss, perplexity = components.discrete_mapping.get_output_for(tf.transpose(x, perm=(0, 2, 3, 1)), is_training=True)
-
-        scores_out = block(x, 2)
-
-    # Recursive structure: complex but efficient.
-    if structure == 'recursive':
-        def cset(cur_lambda, new_cond, new_lambda):
-            return lambda: tf.cond(new_cond, new_lambda, cur_lambda)
-        def grow(res, lod):
-            global quant_loss, perplexity
-            x = lambda: fromrgb(downscale2d(images_in, 2**lod), res)
-
-            if lod > 0:
-                x = cset(x, (lod_in < lod), lambda: grow(res + 1, lod - 1))
-            x = block(x(), res); y = lambda: x
-            if res == 3:
-                quant_loss, perplexity = components.discrete_mapping.get_output_for(
-                    tf.transpose(x, perm=(0, 2, 3, 1)), is_training=True)
-            if res > 2: y = cset(y, (lod_in > lod), lambda: tflib.lerp(x, fromrgb(downscale2d(images_in, 2**(lod+1)), res - 1), lod_in - lod))
-
-            return y()
-        scores_out = grow(2, resolution_log2 - 2)
-
-    # Label conditioning from "Which Training Methods for GANs do actually Converge?"
-    if label_size:
-        with tf.variable_scope('LabelSwitch'):
-            scores_out = tf.reduce_sum(scores_out * labels_in, axis=1, keepdims=True)
-
-    assert scores_out.dtype == tf.as_dtype(dtype)
-    scores_out = tf.identity(scores_out, name='scores_out')
-    return scores_out, quant_loss, perplexity
 
 #----------------------------------------------------------------------------
