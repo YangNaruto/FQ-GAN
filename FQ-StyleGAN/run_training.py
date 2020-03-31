@@ -57,8 +57,7 @@ def run(dataset, data_dir, result_dir, config_id, num_gpus, total_kimg, gamma, m
     D.decay = decay
     train.data_dir = data_dir
     train.total_kimg = total_kimg
-    train.resume_pkl = "results/00029-stylegan2-ffhq-8gpu-config-e/network-snapshot-017735.pkl"
-    train.resume_kimg = 17735
+
     train.mirror_augment = mirror_augment
     train.image_snapshot_ticks = train.network_snapshot_ticks = 10
     sched.G_lrate_base = sched.D_lrate_base = 0.002
@@ -180,8 +179,8 @@ def main():
     parser.add_argument('--gamma', help='R1 regularization weight (default is config dependent)', default=None, type=float)
     parser.add_argument('--mirror-augment', help='Mirror augment (default: %(default)s)', default=False, metavar='BOOL', type=_str_to_bool)
     parser.add_argument('--metrics', help='Comma-separated list of metrics or "none" (default: %(default)s)', default='fid50k', type=_parse_comma_sep)
-    parser.add_argument('--discrete_layer', default='4',type=str)
-    parser.add_argument('--commitment_cost', default=1.0,type=float)
+    parser.add_argument('--discrete_layer', default='45',type=str)
+    parser.add_argument('--commitment_cost', default=0.25,type=float)
     parser.add_argument('--decay', default=0.8, type=float)
     parser.add_argument('--D_type', default=1, type=int)
 
