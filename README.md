@@ -115,4 +115,4 @@ python run_training.py --num-gpus=8 --data-dir=datasets --config=config-e --data
 ```
 
 ## Acknowledgements
-We thank official open-source implementations of [BigGAN](https://arxiv.org/abs/1809.11096), [StyleGAN](https://arxiv.org/abs/1809.11096) and [U-GAT-IT](https://arxiv.org/abs/1907.10830). 
+We thank official open-source implementations of [BigGAN](https://arxiv.org/abs/1809.11096), [StyleGAN](https://arxiv.org/abs/1812.04948), [StyleGAN2](https://arxiv.org/abs/1912.04958) and [U-GAT-IT](https://arxiv.org/abs/1907.10830). 
