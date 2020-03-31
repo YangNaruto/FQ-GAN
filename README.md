@@ -103,7 +103,7 @@ By  default, the training procedure will output checkpoints and intermediate tra
 
 ## FQ-StyleGAN
 
-This experiment is based on the official codebase [StyleGAN](https://github.com/NVlabs/stylegan). The original [Flicker-Faces](https://arxiv.org/abs/1812.04948) dataset includes multi-resolution data. This codebase currently supports up to 128&times;128 resolution. We plan to release a complete version to support the full resolution and highligh the results soon.
+This experiment is based on the official codebase [StyleGAN2](https://github.com/NVlabs/stylegan2). The original [Flicker-Faces](https://arxiv.org/abs/1812.04948) dataset includes multi-resolution data.
 You will need **python 3.6.x, tensorflow-gpu 1.14.0, numpy**
 
 ### Prepare datasets
