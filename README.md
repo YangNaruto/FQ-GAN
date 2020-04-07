@@ -8,7 +8,7 @@ This repository contains source code to reproduce the results presented in the p
  [Chunyuan Li*](http://chunyuan.li/),
  Ping Yu,
  Jianfeng Gao,
- [Changyou Chen](https://cse.buffalo.edu/~changyou/),
+ [Changyou Chen](https://cse.buffalo.edu/~changyou/)
  
 
 <p align="center">
