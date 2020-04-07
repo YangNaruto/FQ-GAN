@@ -1,6 +1,15 @@
 # FQ-GAN
 
-This repository contains source code to reproduce the results presented in the paper ``Feature Quantization Improves GAN Training‘’.
+This repository contains source code to reproduce the results presented in the paper:
+
+[Feature Quantization Improves GAN Training](https://arxiv.org/abs/2002.10638), 2020
+<br>
+ Yang Zhao*,
+ [Chunyuan Li*](http://chunyuan.li/),
+ Ping Yu,
+ Jianfeng Gao,
+ [Changyou Chen](https://cse.buffalo.edu/~changyou/),
+ 
 
 <p align="center">
   <img width="%80" height="%80" src=images/architecture.png>
