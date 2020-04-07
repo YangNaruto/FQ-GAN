@@ -123,5 +123,14 @@ To obtain the FFHQ dataset, please refer to [FFHQ repository](https://github.com
 python run_training.py --num-gpus=8 --data-dir=datasets --config=config-e --dataset=ffhq --mirror-augment=true --total-kimg 25000 --gamma=100 --D_type=1 --discrete_layer [type=string, default=45] --commitment_cost [type=float, default=0.25] --decay [type=float, default=0.8]
 ```
 
+<center>
+	
+| Model     | 32&times;32| 64&times;64  | 128&times;128| 1024&times;1024|
+|:--------:|:-------:|:-------------:|:-------:|:-------------:|
+| StyleGAN    |3.28 | 4.82 | 6.33  | 5.24
+| FQ-StyleGAN |3.01 | 4.36 | 5.98  | 4.89
+	
+</center>
+
 ## Acknowledgements
 We thank official open-source implementations of [BigGAN](https://arxiv.org/abs/1809.11096), [StyleGAN](https://arxiv.org/abs/1812.04948), [StyleGAN2](https://arxiv.org/abs/1912.04958) and [U-GAT-IT](https://arxiv.org/abs/1907.10830). 
