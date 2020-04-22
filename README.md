@@ -8,9 +8,9 @@ This repository contains source code to reproduce the results presented in the p
 
 [Feature Quantization Improves GAN Training](https://arxiv.org/abs/2004.02088), 2020
 <br>
- Yang Zhao*,
+ [Yang Zhao*](https://sites.google.com/view/zhao-yang/),
  [Chunyuan Li*](http://chunyuan.li/),
- Ping Yu,
+ [Ping Yu](http://irisyu.me/),
  Jianfeng Gao,
  [Changyou Chen](https://cse.buffalo.edu/~changyou/)
  
