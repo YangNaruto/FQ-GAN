@@ -1,5 +1,8 @@
 # FQ-GAN
-## NEW! [Photo2portrait](https://drive.google.com/drive/folders/1hE8p0CcsQOvOtbVzoBql0wsdtsMgFvEZ?usp=sharing) pretrained model is released! Other models will be released soon!
+
+### Recent Update  
+
+**(NEW!) [Photo2portrait](https://drive.google.com/drive/folders/1hE8p0CcsQOvOtbVzoBql0wsdtsMgFvEZ?usp=sharing) pretrained model is released! Other models will be released soon!**
 
 This repository contains source code to reproduce the results presented in the paper:
 
