@@ -1,6 +1,7 @@
 # FQ-GAN
 
 ### Recent Update  
+**(NEW!!) Selfie2Anime pretrained models are available now!! [Halfway checkpoint](https://drive.google.com/drive/folders/1okZAuNYSZvhXtOuHXJOkcMQW4aIWar_M?usp=sharing) and [Final checkpoint](https://drive.google.com/drive/folders/1UIcC6OLa7aEXQjKI8CU3ZfTT3PpuhXGW?usp=sharing).**
 
 **(NEW!) [Photo2Portrait](https://drive.google.com/drive/folders/1hE8p0CcsQOvOtbVzoBql0wsdtsMgFvEZ?usp=sharing) pretrained model is released!**
 
