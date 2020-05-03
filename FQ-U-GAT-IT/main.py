@@ -118,7 +118,7 @@ def main():
             print(" [*] Training finished!")
 
         if args.phase == 'test' :
-            gan.test()
+            gan.test(epoch=0)
             print(" [*] Test finished!")
 
 if __name__ == '__main__':
