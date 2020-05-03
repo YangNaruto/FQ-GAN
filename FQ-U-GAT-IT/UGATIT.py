@@ -66,7 +66,10 @@ class UGATIT(object) :
         else:
             self.commitment_cost = 0.0
         layerwise_channel = [64, 128, 256, 512, 1024, 2028]
-        num_embed = [5, 6, 7, 8, 9, 10]
+        
+        # 
+        num_embed = [5, 6, 7, 7, 7, 7]
+#         num_embed = [5, 6, 7, 8, 9, 10]
         self.quantization_layer = args.quantization_layer
         self.quant_layers = [int(x) for x in args.quantization_layer]
 
