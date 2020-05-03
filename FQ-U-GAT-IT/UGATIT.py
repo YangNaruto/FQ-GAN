@@ -7,7 +7,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.training import moving_averages
 from vq_layer import VectorQuantizerEMA
-from compute_kid import *
 import shutil
 
 class UGATIT(object) :
