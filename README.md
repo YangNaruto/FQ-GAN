@@ -1,6 +1,8 @@
 # FQ-GAN
 
 ### Recent Update  
+**(NEW!!) [Colab](https://colab.research.google.com/drive/1XdhEBen8vBlqIE-XPuu8j7FHYMs-x83z?usp=sharing) file for training and testing. Put it into```FQ-GAN/FQ-U-GAT-IT``` and follow the training/testing instruction.**
+
 **(NEW!!) Selfie2Anime pretrained models are available now!! [Halfway checkpoint](https://drive.google.com/drive/folders/1okZAuNYSZvhXtOuHXJOkcMQW4aIWar_M?usp=sharing) and [Final checkpoint](https://drive.google.com/drive/folders/1UIcC6OLa7aEXQjKI8CU3ZfTT3PpuhXGW?usp=sharing).**
 
 **(NEW!) [Photo2Portrait](https://drive.google.com/drive/folders/1hE8p0CcsQOvOtbVzoBql0wsdtsMgFvEZ?usp=sharing) pretrained model is released!**
