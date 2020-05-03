@@ -118,7 +118,9 @@ By  default, the training procedure will output checkpoints and intermediate tra
 ```
 python main.py --phase test --test_train False --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.85]
 ```
-If the model is freshly loaded from what I have shared, remember to put them into 'checkpoint_quant/UGATIT_q_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing_123_2.0_0.85' by default and modify the file '''checkpoint''' accordingly. This structure is inherited from the official U-GAT-IT. Please feel free to modify it for convinience.
+If the model is freshly loaded from what I have shared, remember to put them into
+```checkpoint_quant/UGATIT_q_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing_123_2.0_0.85```
+by default and modify the file ```checkpoint``` accordingly. This structure is inherited from the official U-GAT-IT. Please feel free to modify it for convinience.
 
 ## FQ-StyleGAN
 
