@@ -12,7 +12,7 @@ This repository contains source code to reproduce the results presented in the p
 <br>
  [Yang Zhao*](https://sites.google.com/view/zhao-yang/),
  [Chunyuan Li*](http://chunyuan.li/),
- [Ping Yu](http://irisyu.me/),
+ Ping Yu,
  Jianfeng Gao,
  [Changyou Chen](https://cse.buffalo.edu/~changyou/)
  
