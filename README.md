@@ -113,18 +113,43 @@ cd FQ-U-GAT-IT && bash download_dataset_2.sh [horse2zebra, vangogh2photo]
 
 ### Training
 ```
-python main.py --phase train --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.85]
+python main.py --phase train --dataset [type=str, selfie2anime/portrait/cat2dog/horse2zebra/vangogh2photo] --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.85]
 ```
 By  default, the training procedure will output checkpoints and intermediate translations from (testA, testB) to `checkpoints (checkpoints_quant)` and `results (results_quant)` respectively.
 
 ### Testing
 ```
-python main.py --phase test --test_train False --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.85]
+python main.py --phase test --test_train False --dataset [type=str, selfie2anime/portrait/cat2dog/horse2zebra/vangogh2photo] --quant [type=bool, True/False] --commitment_cost [type=float, default=2.0] --quantization_layer [type=str, i.e. 123] --decay [type=float, default=0.85]
 ```
 If the model is freshly loaded from what I have shared, remember to put them into
 ```checkpoint_quant/UGATIT_q_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing_123_2.0_0.85```
 by default and modify the file ```checkpoint``` accordingly. This structure is inherited from the official U-GAT-IT. Please feel free to modify it for convinience.
 
+### Usage
+```
+├── FQ-GAN
+   └── FQ-U-GAT-IT
+       ├── dataset
+           ├── selfie2anime
+           ├── portrait
+	   ├── vangogh2photo
+	   ├── horse2zebra
+           └── cat2dog
+       ├── checkpoint_quant
+           ├── UGATIT_q_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing_123_2.0_0.85
+	       ├── checkpoint
+	       ├── UGATIT.model-480000.data-00000-of-00001
+	       ├── UGATIT.model-480000.index
+	       ├── UGATIT.model-480000.meta
+           ├── UGATIT_q_portrait_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing_123_2.0_0.85
+           └── ...
+```
+If you choose the halfway pretrained model, contents in ```checkpoint``` should be
+```
+model_checkpoint_path: "UGATIT.model-480000"
+all_model_checkpoint_paths: "UGATIT.model-480000"
+
+```
 ## FQ-StyleGAN
 
 This experiment is based on the official codebase [StyleGAN2](https://github.com/NVlabs/stylegan2). The original [Flicker-Faces](https://arxiv.org/abs/1812.04948) dataset includes multi-resolution data.
