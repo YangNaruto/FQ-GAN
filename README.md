@@ -2,7 +2,7 @@
 
 ### Recent Update  
 
-** May 22, 2020  [`Demo`](http://40.71.23.172:8888/) for Selfie2Anime is release. Try it out.
+** May 22, 2020  [`Selfie2Anime Demo`](http://40.71.23.172:8888/)  is release. Try it out.
 
 ** [Colab](https://colab.research.google.com/drive/1XdhEBen8vBlqIE-XPuu8j7FHYMs-x83z?usp=sharing) file for training and testing. Put it into```FQ-GAN/FQ-U-GAT-IT``` and follow the training/testing instruction.**
 
