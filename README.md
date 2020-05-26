@@ -2,7 +2,7 @@
 
 ### Recent Update  
 
-* May 22, 2020 Releasing the pre-trained FQ-BigGAN/BigGAN at resolutin 64x64 and their training logs at the (link)[https://textae.blob.core.windows.net/qgan/qgan/ibm_ckpt.zip] (10.34G):
+* May 22, 2020 Releasing the pre-trained FQ-BigGAN/BigGAN at resolutin 64x64 and their training logs at the [link](https://textae.blob.core.windows.net/qgan/qgan/ibm_ckpt.zip) (10.34G):
 
 
 * May 22, 2020  [`Selfie2Anime Demo`](http://40.71.23.172:8888/)  is released. Try it out.
