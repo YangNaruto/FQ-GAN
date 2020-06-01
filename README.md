@@ -17,7 +17,7 @@
 
 This repository contains source code to reproduce the results presented in the paper:
 
-[Feature Quantization Improves GAN Training](https://arxiv.org/abs/2004.02088), 2020
+[Feature Quantization Improves GAN Training](https://arxiv.org/abs/2004.02088), ICML 2020
 <br>
  [Yang Zhao*](https://sites.google.com/view/zhao-yang/),
  [Chunyuan Li*](http://chunyuan.li/),
