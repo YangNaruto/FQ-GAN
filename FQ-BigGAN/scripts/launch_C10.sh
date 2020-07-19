@@ -8,5 +8,5 @@ python3 train.py --shuffle --batch_size 64 --parallel \
 --ema --use_ema --ema_start 1000 \
 --test_every 1000 --save_every 1000 \
 --num_best_copies 5 --num_save_copies 2 --seed 0 \
---discrete_layer 0123 --commitment 1.0 --dict_size 6 --dict_decay 0.9 \
+--discrete_layer 0123 --commitment 1.0 --dict_size 10 --dict_decay 0.8 \
 --name_suffix quant
